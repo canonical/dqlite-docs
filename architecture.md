@@ -8,13 +8,13 @@ Just like SQLite, Dqlite is meant to be used as a library embedded in your appli
 
 For example, if your application is some kind of network service that exposes an API over the network and saves its data into a regular SQLite database file, your architecture might look like:
 
-![sqlite-model|690x122](upload://9Lv7a08KkaOrkgYuBtqsjiPSWkc.png)
+![SQLite architecture](https://assets.ubuntu.com/v1/4472303a-sqlite-model.png)
 
 The remote application client connects to your application process and internally your application uses SQLite as a normal library to run SQL queries against the local database file.
 
 If you want your application to be highly-available, you can use Dqlite instead of SQLite. In that case your architecture will look mostly similar, but you will have several application nodes instead of one:
 
-![dqlite-model|690x327](upload://2ANiMFub3J0d4tU8kAfVAsAIQ0v.png)
+![Dqlite architecture](https://assets.ubuntu.com/v1/122d236c-dqlite-model.png)
 
 In this case the remote application client can connect to **any** of your application processes, and internally your application uses Dqlite as an embedded and replicated database server.
 
