@@ -1,10 +1,10 @@
-If you want to see dqlite in action, please check out the [demo program](https://github.com/canonical/go-dqlite#demo) that comes with the Go dqlite bindings. For details about dqlite's internals see the [architecture](https://dqlite.io/docs/architecture) notes, the [consistency model](https://dqlite.io/docs/consistency-model) description and the [replication](https://dqlite.io/docs/replication) mechanics. Alternatively, you can watch the [talk about dqlite](https://fosdem.org/2020/schedule/event/dqlite/) that was given at FOSDEM 2020.
+If you want to see Dqlite in action, please check out the [demo program](https://github.com/canonical/go-dqlite#demo) that comes with the Go Dqlite bindings. For details about Dqlite's internals see the [architecture](https://dqlite.io/docs/architecture) notes, the [consistency model](https://dqlite.io/docs/consistency-model) description and the [replication](https://dqlite.io/docs/replication) mechanics. Alternatively, you can watch the [talk about Dqlite](https://fosdem.org/2020/schedule/event/dqlite/) that was given at FOSDEM 2020.
 
-If you’re writing an application please refer to the dqlite C [header file](https://github.com/canonical/dqlite/blob/master/include/dqlite.h) or the [go-dqlite](https://github.com/canonical/go-dqlite) Go bindings.
+If you’re writing an application please refer to the Dqlite C [header file](https://github.com/canonical/dqlite/blob/master/include/dqlite.h) or the [go-dqlite](https://github.com/canonical/go-dqlite) Go bindings.
 
-If you’re writing a dqlite client for a new language, please refer to the [wire protocol](https://dqlite.io/docs/protocol) description.
+If you’re writing a Dqlite client for a new language, please refer to the [wire protocol](https://dqlite.io/docs/protocol) description.
 
-If you have questions about dqlite, please have a look at the [FAQ](https://dqlite.io/docs/faq) before filing issues.
+If you have questions about Dqlite, please have a look at the [FAQ](https://dqlite.io/docs/faq) before filing issues.
 
 ## Navigation
 
