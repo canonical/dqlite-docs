@@ -20,17 +20,17 @@ In this case the remote application client can connect to **any** of your applic
 
 There is an important difference between the two models above though.
 
-The SQLite model is [serverless](https://www.sqlite.org/serverless.html) and there's no network communication involved when running queries: your application process simply invokes **SQLite library functions** which under the hood read and write data directly from and to the local disk.
+The SQLite model is [serverless](https://www.sqlite.org/serverless.html) and there's no network communication involved when running queries: your application process simply invokes *SQLite library functions* which under the hood read and write data directly from and to the local disk.
 
-The Dqlite model is more similar to a "regular" database with [client/serve](https://en.wikipedia.org/wiki/Client%E2%80%93server_model)r network communication: each of the application processes in your cluster spaws a **Dqlite server thread** and then uses a **Dqlite network client** which under the hood connects to the particular Dqlite server thread that happens to be the current cluster leader. This means that the SQL queries issued by an application process using the Dqlite network client might end up being processed by the Dqlite server thread of that very same process (if that node is currently the leader) or by the Dqlite server thread of another application process. The leader in turn connects to the other Dqlite server threads to replicate transactions and commits a transaction only when a quorum of nodes has persisted it durably to disk.
+The Dqlite model is more similar to a "regular" database with [client/serve](https://en.wikipedia.org/wiki/Client%E2%80%93server_model)r network communication: each of the application processes in your cluster spawns a *Dqlite server thread* and then uses a *Dqlite network client* which under the hood connects to the particular Dqlite server thread that happens to be the current cluster leader. This means that the SQL queries issued by an application process using the Dqlite network client might end up being processed by the Dqlite server thread of that very same process (if that node is currently the leader) or by the Dqlite server thread of another application process. The leader in turn connects to the other Dqlite server threads to replicate transactions and commits a transaction only when a quorum of nodes has persisted it durably to disk.
 
 ## Server thread
 
-The Dqlite server thread running in an application process uses [libuv](http://libuv.org/) to handle all its network and disk I/O asynchronously.
+The Dqlite server thread running in an application process uses [`libuv`](http://libuv.org/) to handle all its network and disk I/O asynchronously.
 
 When spawned, it immediately starts listening to a TCP or abstract Unix socket, accepting network connections coming either from Dqlite clients or from remote Dqlite server threads running on other application nodes. Clients submit SQL queries and fetch the associated result, or issue cluster management commands such as adding or removing an application node. Remote Dqlite server threads send Raft requests to elect a new leader or replicate a write transaction.
 
-The network protocol both for clients and for Raft replication is message-oriented. Since I/O is asynchronous and driven by libuv's event loop, messages are read incrementally from network sockets as soon as new data is available, so reads never block the thread. When a message is fully received, it gets processed immediately and completely. As part of processing a message, the server thread might queue outgoing messages or disk writes, which will be picked up asynchronously by the event loop after the processing completes.
+The network protocol both for clients and for Raft replication is message-oriented. Since I/O is asynchronous and driven by `libuv`'s event loop, messages are read incrementally from network sockets as soon as new data is available, so reads never block the thread. When a message is fully received, it gets processed immediately and completely. As part of processing a message, the server thread might queue outgoing messages or disk writes, which will be picked up asynchronously by the event loop after the processing completes.
 
 ## Client library
 
