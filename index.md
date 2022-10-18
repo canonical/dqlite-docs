@@ -11,10 +11,24 @@ If you have questions about Dqlite, please have a look at the [FAQ](https://dqli
 [details=Navigation]
 | Level | Path | Navlink |
 | -- | -- | -- |
-| 1 | | [Home](/t/dqlite-documentation/34) |
-| 1 | architecture | [Architecture](/t/architecture/27) |
-| 1 | consistency-model | [Consistency Model](/t/consistency-model/29) |
-| 1 | protocol | [Wire Protocol](/t/wire-protocol/23) |
-| 1 | replication | [Replication](/t/replication/28) |
-| 1 | faq | [FAQ](/t/documentation-faq/22) |
+| 1 | | [Dqlite documentation](/t/dqlite-documentation/34) |
+| 0 | | Explanation |
+| 1 | explanation/architecture | [Architecture](/t/architecture/27) |
+| 1 | explanation/consistency-model | [Consistency Model](/t/consistency-model/29) |
+| 1 | explanation/replication | [Replication](/t/replication/28) |
+| 1 | explanation/faq | [FAQ](/t/documentation-faq/22) |
+| 0 | | Reference |
+| 1 | reference/wire-protocol | [Wire Protocol](/t/wire-protocol/23) |
+[/details]
+
+## Redirects
+
+[details=Mapping table]
+| Path               | Location                       |
+| ----               | --------                       |
+| /architecture      | /explanation/architecture      |
+| /consistency-model | /explanation/consistency-model |
+| /replication       | /explanation/replication       |
+| /faq               | /explanation/faq               |
+| /protocol          | /reference/wire-protocol       |
 [/details]
