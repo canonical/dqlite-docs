@@ -6,7 +6,7 @@ We think this choice is particularly appropriate for IoT and Edge devices, but a
 
 ## Who’s using Dqlite?
 
-At the moment the biggest user of Dqlite is the [LXD](https://linuxcontainers.org/lxd/introduction/) system containers manager, which uses Dqlite to implement high-availability when running in cluster mode. See the relevant [documentation](https://github.com/lxc/lxd/blob/master/doc/clustering.md).
+At the moment the biggest user of Dqlite is the [LXD](https://linuxcontainers.org/lxd/introduction/) system containers manager, which uses Dqlite to implement high-availability when running in cluster mode. See the relevant [documentation](https://linuxcontainers.org/lxd/docs/latest/clustering/).
 
 ## Are Windows and macOS supported?
 
