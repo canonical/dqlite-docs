@@ -1,13 +1,3 @@
-## What are the use cases?
-
-If don’t want to depend on an external database (e.g. you’d like to use SQLite) but yet you want your application to be highly-available (e.g you have 3 nodes, and you want your data and service uptime to survive in case a node is lost), then Dqlite is for you.
-
-We think this choice is particularly appropriate for IoT and Edge devices, but also for agents and backend cloud services that wish to simplify their operation.
-
-## Who’s using Dqlite?
-
-At the moment the biggest user of Dqlite is the [LXD](https://linuxcontainers.org/lxd/introduction/) system containers manager, which uses Dqlite to implement high-availability when running in cluster mode. See the relevant [documentation](https://linuxcontainers.org/lxd/docs/latest/clustering/).
-
 ## Are Windows and macOS supported?
 
 Not at the moment, because under the hood Dqlite uses the Linux-specific `io_submit` asynchronous file system write API. That code leaves behind an interface that could be adapted to OSX and Windows though. See also this [issue](https://github.com/canonical/go-dqlite/issues/21).
