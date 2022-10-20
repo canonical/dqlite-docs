@@ -30,7 +30,7 @@ Thinking about using Dqlite for your next project? [Get in touch](https://canoni
 | -- | -- | -- |
 | 1 | | [Dqlite documentation](/t/dqlite-documentation/34) |
 | 0 | | How-to guides |
-| 1 | howto/get-started | [Get started](tbd) |
+| 1 | howto/get-started | [Get started](/t/how-to-get-started/56) |
 | 0 | | Explanation |
 | 1 | explanation/architecture | [Architecture](/t/architecture/27) |
 | 1 | explanation/consistency-model | [Consistency Model](/t/consistency-model/29) |
@@ -43,11 +43,11 @@ Thinking about using Dqlite for your next project? [Get in touch](https://canoni
 ## Redirects
 
 [details=Mapping table]
-| Path               | Location                       |
-| ----               | --------                       |
-| /architecture      | /explanation/architecture      |
-| /consistency-model | /explanation/consistency-model |
-| /replication       | /explanation/replication       |
-| /faq               | /explanation/faq               |
-| /protocol          | /reference/wire-protocol       |
+| Path                    | Location                            |
+| ----                    | --------                            |
+| /docs/architecture      | /docs/explanation/architecture      |
+| /docs/consistency-model | /docs/explanation/consistency-model |
+| /docs/replication       | /docs/explanation/replication       |
+| /docs/faq               | /docs/explanation/faq               |
+| /docs/protocol          | /docs/reference/wire-protocol       |
 [/details]
