@@ -8,6 +8,7 @@ goroutine
 IoT
 linearizable
 linearized
+Litestream
 LXD
 macOS
 OSX
