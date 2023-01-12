@@ -29,6 +29,8 @@ The main differences from [rqlite](https://github.com/rqlite/rqlite) are:
 * No need for statements to be deterministic (e.g. you can use `time()` )
 * Frame-based replication instead of statement-based replication
 
+[Here](https://gcore.com/blog/comparing-litestream-rqlite-dqlite/) is a blog post comparing dqlite with rqlite and Litestream (another implementation of replication for SQLite).
+
 ## Why C?
 
 The first prototype implementation of Dqlite was in Go, leveraging the [`hashicorp/raft`](https://github.com/hashicorp/raft/) implementation of the Raft algorithm. The project was later rewritten entirely in C because of performance problems due to the way Go inter-operates with C: Go considers a function call into C that lasts more than ~20 microseconds as a blocking system call, in that case, it will put the goroutine running that C call in waiting queue and resuming it will effectively cause a context switch, degrading performance (since there were a lot of them happening). See also [this issue](https://github.com/golang/go/issues/19574) in the Go bug tracker.
