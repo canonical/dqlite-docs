@@ -29,7 +29,7 @@ The main differences from [rqlite](https://github.com/rqlite/rqlite) are:
 * No need for statements to be deterministic (e.g. you can use `time()` )
 * Frame-based replication instead of statement-based replication
 
-[Here](https://gcore.com/blog/comparing-litestream-rqlite-dqlite/) is a blog post comparing dqlite with rqlite and Litestream (another implementation of replication for SQLite).
+See the [Comparing Litestream, rqlite, and Dqlite](https://gcore.com/blog/comparing-litestream-rqlite-dqlite/) blog post for a comparison of different SQLite replication implementations.
 
 ## Why C?
 
