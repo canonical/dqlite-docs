@@ -17,11 +17,32 @@ The message body is a sequence of fields as described by the associated schema. 
 
 ## Setup
 
-As soon as a connection is established, the client must send to the server a single word containing the protocol version it wishes to use.
+As soon as a connection is established, the client must send to the server a single word containing the protocol version it wishes to use. The current protocol version is 1 (in little-endian representation).
 
 ## Conversation
 
-After the setup, communication between client and server happens by message exchange. Typically the client will send to the server a message containing a request and the server will send to the client a message containing a response.
+After the setup, communication between client and server happens by message exchange. Typically the client will send to the server a message containing a request and the server will send to the client a message containing a response. Any request may result in a failure response (type `0`); otherwise, the correspondence between request and response types is as follows:
+
+| Request | Response |
+| ---     | ---      |
+| `0` (Get current leader) | `1` (Leader information) |
+| `1` (Client registration) | `2` (Welcome) |
+| `3` (Open a database) | `4` (Database information) |
+| `4` (Prepare a statement) | `5` (Prepared statement information) |
+| `5` (Execute a prepared statement)` | `6` (Statement execution result) |
+| `6` (Execute a prepared statement yielding rows) | `7` (Batch of table rows) |
+| `7` (Finalise a prepared statement) | `8` (Acknowledgement) |
+| `8` (Execute a SQL text) | `6` (Statement execution result) |
+| `9` (Execute a SQL text yielding rows) | `7` (Batch of table rows) |
+| `10` (Interrupt the execution of a statement yielding rows) | `8` (Acknowledgement) |
+| `12` (Add a non-voting node to the cluster) | `8` (Acknowledgement) |
+| `13` (Assign a role to a node) | `8` (Acknowledgement) |
+| `14` (Remove a node from the cluster) | `8` (Acknowledgement) |
+| `15` (Dump the content of a database) | `9` (Database files) |
+| `16` (List all nodes of the cluster) | `3` (Cluster information) |
+| `17` (Transfer leadership to another node) | `8` (Acknowledgement) |
+| `18` (Get metadata associated with this node) | `10` (Node metadata) |
+| `19` (Set the weight of this node) | `8` (Acknowledgement) |
 
 ## Data types
 
@@ -80,17 +101,15 @@ sequence of 8-bit (1-byte) type codes, followed by zero padding if necessary up 
 
 The `params32-tuple` type represents a sequence of SQL statement parameters in the four request messages listed above (5, 6, 8, 9), when the message schema version is set to 1. It is coded in the same way as the `params-tuple` type, except that the initial "number of values" field is a 4-byte little-endian integer instead of a single byte.
 
-### `node-info`
+### `node-info0`, `node-info`
 
-Information about a node in the cluster. It consists of the node ID (in `uint64` encoding) followed by the node address (in `text` encoding), and finally the node's role code (in `uint64` encoding).
+Information about a node in the cluster. `node-info0` consists of a node ID (in `uint64` encoding) followed by a node address (in `text` encoding). `node-info` consists of the same two fields, followed by a role code (in `uint64` encoding). The role codes are:
 
-The roles codes are:
-
-| Code | Value    |
-| ---  | ---      |
-| `0`  | Voter    |
-| `1`  | Stand-by |
-| `2`  | Spare    |
+| Code | Value   |
+| ---  | ---     |
+| `0`  | Voter   |
+| `1`  | Standby |
+| `2`  | Spare   |
 
 ### `file`
 
@@ -188,17 +207,11 @@ For message schema version 1, `params32-tuple` is used instead of `params-tuple`
 | ---      | ---                                                   |
 | `uint64` | ID of the open database currently executing the query |
 
-### `11` - Start pushing replication data
-
-| Type        | Value                                       |
-| ---         | ---                                         |
-| `node-info` | ID and address of the node pushing the data |
-
 ### `12` - Add a non-voting node to the cluster
 
-| Type        | Value                             |
-| ---         | ---                               |
-| `node-info` | ID and address of the node to add |
+| Type         | Value                             |
+| ---          | ---                               |
+| `node-info0` | ID and address of the node to add |
 
 ### `13` - Assign a role to a node
 
@@ -207,13 +220,7 @@ For message schema version 1, `params32-tuple` is used instead of `params-tuple`
 | `uint64` | ID of the node to update |
 | `uint64` | New role                 |
 
-The "new role" field is interpreted as follows:
-
-| Value | Interpretation |
-| ---   | ---            |
-| `0`   | Voter          |
-| `1`   | Standby        |
-| `2`   | Spare          |
+The "new role" field is interpreted as described for `node-info`.
 
 ### `14` - Remove a node from the cluster
 
@@ -266,11 +273,11 @@ The server can send to the client messages with the following type codes and ass
 | `uint64` | Code identifying the failure type |
 | `text`   | Human-readable failure message    |
 
-### `1` - Node information
+### `1` - Leader information
 
-| Type        | Value                           |
-| ---         | ---                             |
-| `node-info` | Information about a single node |
+| Type         | Value                                |
+| ---          | ---                                  |
+| `node-info0` | Information about the cluster leader |
 
 ### `2` - Welcome
 
@@ -338,7 +345,7 @@ The end marker is the value `0xffffffffffffffff` if the statement currently yiel
 | `file`   | Main database file   |
 | `file`   | Write-ahead log file |
 
-### `10` - Note metadata
+### `10` - Node metadata
 
 | Type     | Value          |
 | ---      | ---            |
