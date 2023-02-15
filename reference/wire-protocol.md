@@ -29,7 +29,7 @@ After the setup, communication between client and server happens by message exch
 | `1` (Client registration) | `2` (Welcome) |
 | `3` (Open a database) | `4` (Database information) |
 | `4` (Prepare a statement) | `5` (Prepared statement information) |
-| `5` (Execute a prepared statement)` | `6` (Statement execution result) |
+| `5` (Execute a prepared statement) | `6` (Statement execution result) |
 | `6` (Execute a prepared statement yielding rows) | `7` (Batch of table rows) |
 | `7` (Finalise a prepared statement) | `8` (Acknowledgement) |
 | `8` (Execute a SQL text) | `6` (Statement execution result) |
@@ -188,6 +188,10 @@ The format for message schema version 0 is:
 | `params-tuple` | A tuple of parameters to bind  |
 
 For message schema version 1, `params32-tuple` is used instead of `params-tuple` for the last field.
+
+The SQL text may consist of multiple statements, but if it does, parameters must not be provided. The server will not crash or otherwise behave dangerously when processing a request that includes both multi-statement text and parameters, but it may respond with a "Failure" message or with a "Statement execution result" message that is not meaningful.
+
+If the SQL text consists of multiple statements, the fields of the "Statement execution result" response pertain to the *last* statement.
 
 ### `9` - Execute a SQL text yielding rows
 
