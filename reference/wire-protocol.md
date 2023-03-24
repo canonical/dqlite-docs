@@ -83,7 +83,8 @@ Every tuple ends with a sequence of *values*, each of which is coded according t
 | `2`       | An IEEE 754 floating point number stored in a single word (little endian)            |
 | `3`       | A string value using the `text` encoding                                             |
 | `4`       | A binary blob: the first word of the value is the length of the blob (little endian) |
-| `5`       | A SQL NULL value encoded as a zeroed word                                            |
+| `5`       | A SQL NULL value encoded as a zeroed word |
+| `9`       | A Unix timestamp, encoded as an `int64` count of seconds since the Unix epoch |
 | `10`      | An ISO-8601 date value using the `text` encoding                                     |
 | `11`      | A Boolean value using `uint64` encoding (0 for false and 1 for true)                 |
 
