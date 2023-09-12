@@ -29,6 +29,10 @@ Thinking about using Dqlite for your next project? [Get in touch](https://canoni
 | Level | Path | Navlink |
 | -- | -- | -- |
 | 1 | | [Dqlite documentation](/t/dqlite-documentation/34) |
+| 0 | | Tutorials |
+| 1 | tutorials/get-started-with-dqlite-in-go | [Get started with Dqlite in Go](/t/get-started-with-dqlite-in-go/71) |
+| 2 | tutorials/setup-your-development-environment | [Set up your development environment](/t/set-up-your-development-environment/72) |
+| 2 | tutorials/create-an-example-application | [Create an example application](/t/create-an-example-application/73) |
 | 0 | | How-to guides |
 | 1 | howto/get-started | [Get started](/t/how-to-get-started/56) |
 | 0 | | Explanation |
