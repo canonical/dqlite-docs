@@ -1,5 +1,7 @@
 backend
+CLI
 CP
+Debian
 Dqlite
 Dqlite's
 endian
@@ -11,8 +13,10 @@ linearized
 Litestream
 LXD
 macOS
+Multipass
 OSX
 POSIX
+PPA
 replicational
 retriable
 rqlite
@@ -26,4 +30,5 @@ uptime
 UTF
 UUID
 VFS
+VM
 WAL
