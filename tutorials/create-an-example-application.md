@@ -1,10 +1,6 @@
-# Create an example application
-
 In the following steps, we will gradually build a minimal `go-dqlite` application that provides an HTTP endpoint to read and write values in a Dqlite cluster.
 
-[note type="important" status="Info"]
- You can find the final code here: https://github.com/canonical/go-dqlite/blob/master/cmd/dqlite-demo/dqlite-demo.go  <!-- wokeignore:rule=master --> 
-[/note]
+>You can find the final code here: https://github.com/canonical/go-dqlite/blob/master/cmd/dqlite-demo/dqlite-demo.go  <!-- wokeignore:rule=master --> 
 
 ## Create a minimal starting point
 
@@ -84,9 +80,7 @@ ubuntu@dqlite-tutorial:~/go-dqlite-demo$ go run go-dqlite-demo.go
 2023/09/11 14:40:46 Table created
 ```
 
-[note type="important" status="Info"]
- Rerunning this app will result in an error since the table already exists. 
-[/note]
+>Rerunning this app will result in an error since the table already exists. 
 
 Congratulations! You have created your first Dqlite application in Go.
 
@@ -97,9 +91,7 @@ A cluster of nodes can simply be created by providing the IP address of the lead
 In the previous example, we hard-coded the address directly in the code. Each node needs a unique IP address, so we need to make this value configurable.
 Let's use [Cobra](https://github.com/spf13/cobra) to turn the previous example into a CLI application to which we can pass flags.
 
-[note type="important" status="Info"]
- An introduction to Cobra is out of scope for this tutorial. Visit the [official documentation](https://cobra.dev/#getting-started) for more information on this library.
-[/note]
+>An introduction to Cobra is out of scope for this tutorial. Visit the [official documentation](https://cobra.dev/#getting-started) for more information on this library.
 
 Install the dependency with:
 ```bash
@@ -270,9 +262,7 @@ signal.Notify(ch, unix.SIGQUIT)
 signal.Notify(ch, unix.SIGTERM)
 ```
 
-[note type="important" status="Info"]
- Read more on [HTTP servers in Go](https://pkg.go.dev/net/http).
-[/note]
+>Read more on [HTTP servers in Go](https://pkg.go.dev/net/http).
 
 Finally, add an `api` flag that defines the address of the HTTP API. The final code looks like this:
 

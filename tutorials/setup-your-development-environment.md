@@ -1,5 +1,3 @@
-# Set up your development environment
-
 The following section walks you through the necessary steps to set up your environment.
 It is recommended to spin up a clean Ubuntu VM for these steps as it is always good to perform experiments in an isolated development environment.
 Follow the steps in [Set up an Ubuntu VM with Multipass](https://juju.is/docs/sdk/set-up-your-development-environment#heading--set-up-an-ubuntu-vm-with-multipass) to do this.
@@ -29,9 +27,7 @@ Then install the library:
 sudo apt install libdqlite-dev
 ```
 
-[note type="important" status="Info"]
-If you are not using a Debian-based system, you must build `libdqlite` from source. See [Build](https://github.com/canonical/dqlite#build) for instructions on how to do this.
-[/note]
+>If you are not using a Debian-based system, you must build `libdqlite` from source. See [Build](https://github.com/canonical/dqlite#build) for instructions on how to do this.
 
 # Install Go 
 
@@ -55,9 +51,7 @@ Install the application bindings for `go-dqilite/app` with:
 go get github.com/canonical/go-dqlite/app
 ```
 
-[note type="important" status="Info"]
-Read more about Go mod files in the [Go documentation](https://go.dev/ref/mod).
-[/note]
+>Read more about Go mod files in the [Go documentation](https://go.dev/ref/mod).
 
 # Install a C compiler
 
