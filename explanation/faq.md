@@ -10,11 +10,19 @@ Not at the moment. But [Canonical](https://www.canonical.com), the company who�
 
 The v1 series will be maintained, improved and bug-fixed for the foreseeable future and backward compatibility is guaranteed.
 
-## How does Dqlite behave during conflict situations?
+## How does Dqlite behave during conflict situations? Does Raft select a winning WAL to write and any others in-flight writes are aborted?
 
-Does Raft select a winning WAL to write and any others in-flight writes are aborted?
+Dqlite uses Raft to commit write transactions in the same order across all nodes in the cluster. Only a current Raft leader is allowed to start replicating a new write transaction, so in a healthy cluster where the leader is stable, no conflicts arise. Trying to execute a transaction on a non-leader node will automatically fail.
 
-There can’t be a conflict situation. Raft’s model is that only the leader can append new log entries, which translated to Dqlite means that only the leader can write new WAL frames. So this means that any attempt to perform a write transaction on a non-leader node will fail with an `ErrNotLeader` error (and in this case clients are supposed to retry against whoever is the new leader).
+In a cluster where leadership isn't stable (perhaps because communication between the nodes is disrupted), the Raft logs of distinct nodes can become mismatched. But Raft's rules ensure that a leader that remains in power for long enough will repair these mismatches, and in the meantime no transaction can be committed unless acknowledged by a majority of the cluster.
+
+From the perspective of a Dqlite client, some possible outcomes when submitting a write transaction `T` to a node `N`:
+
+* The request fails immediately because `N` is not the leader.
+* The request fails after a delay because `N` lost leadership before fully replicating it. In this case, it's guaranteed that no other transaction will observe the effects of `T`.
+* The request succeeds. In this case, `T` will never be rolled back.
+
+See also the [consistency model](./consistency-model.md).
 
 ## When not enough nodes are available, are writes hung until consensus?
 
