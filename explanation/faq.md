@@ -20,6 +20,14 @@ There can’t be a conflict situation. Raft’s model is that only the leader ca
 
 Yes, however, there’s a (configurable) timeout. This is a consequence of Raft sitting in the CP spectrum of the CAP theorem: in case of a network partition, it chooses consistency and sacrifices availability.
 
+## Does Dqlite support `VACUUM`?
+
+Not currently. Because Dqlite depends the numbering of database pages to replicate changes between nodes, vacuuming needs to be coordinated using the Raft log in the same way that write transactions are. We expect to implement this in a future Dqlite release.
+
+## Does Dqlite support `ATTACH DATABASE`?
+
+Not currently: Dqlite assumes that each write transaction affects only one database. Even if this constraint were removed, it would be difficult to fit such multi-database transactions into the Raft model, since [even in SQLite they are not atomic in WAL mode](https://sqlite.org/lang_attach.html#details).
+
 ## How does Dqlite compare to rqlite?
 
 The main differences from [rqlite](https://github.com/rqlite/rqlite) are:
