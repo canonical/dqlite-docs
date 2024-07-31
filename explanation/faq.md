@@ -10,16 +10,14 @@ Not at the moment. But [Canonical](https://www.canonical.com), the company whoâ€
 
 The v1 series will be maintained, improved and bug-fixed for the foreseeable future and backward compatibility is guaranteed.
 
-## How does Dqlite behave during conflict situations? Does Raft select a winning WAL to write and any others in-flight writes are aborted?
+## How does Dqlite behave during conflict situations?
 
-Dqlite uses Raft to commit write transactions in the same order across all nodes in the cluster. Only a current Raft leader is allowed to start replicating a new write transaction, so in a healthy cluster where the leader is stable, no conflicts arise. Trying to execute a transaction on a non-leader node will automatically fail.
-
-In a cluster where leadership isn't stable (perhaps because communication between the nodes is disrupted), the Raft logs of distinct nodes can become mismatched. But Raft's rules ensure that a leader that remains in power for long enough will repair these mismatches, and in the meantime no transaction can be committed unless acknowledged by a majority of the cluster.
+Dqlite uses Raft to commit write transactions in the same order across all nodes in the cluster. In the Raft model, only a current leader is allowed to start replicating a new transaction, and a transaction is only committed after a majority of nodes acknowledge it. Because of the first rule, conflicts don't arise in a healthy cluster where the leader is stable. In the presence of leadership changes, the Raft logs of distinct nodes can become mismatched, but Raft will repair these differences once the leader stabilizes, and because of the majority rule two nodes cannot commit different sequences of transactions. Once committed, a transaction is never cancelled or rolled back.
 
 From the perspective of a Dqlite client, some possible outcomes when submitting a write transaction `T` to a node `N`:
 
 * The request fails immediately because `N` is not the leader.
-* The request fails after a delay because `N` lost leadership before fully replicating it. In this case, it's guaranteed that no other transaction will observe the effects of `T`.
+* The request fails after a delay (during which the client is waiting for leader's response) because `N` lost leadership before fully replicating it. In this case, it's guaranteed that no other transaction will observe the effects of `T`.
 * The request succeeds. In this case, `T` will never be rolled back.
 
 See also the [consistency model](./consistency-model.md).
