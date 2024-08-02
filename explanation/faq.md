@@ -12,7 +12,7 @@ The v1 series will be maintained, improved and bug-fixed for the foreseeable fut
 
 ## How does Dqlite behave during conflict situations?
 
-Dqlite uses Raft to commit write transactions in the same order across all nodes in the cluster. In the Raft model, only a current leader is allowed to start replicating a new transaction, and a transaction is only committed after a majority of nodes acknowledge it. Because of the first rule, conflicts don't arise in a healthy cluster where the leader is stable. In the presence of leadership changes, the Raft logs of distinct nodes can become mismatched, but Raft will repair these differences once the leader stabilizes, and because of the majority rule two nodes cannot commit different sequences of transactions. Once committed, a transaction is never cancelled or rolled back.
+Dqlite uses Raft to commit write transactions in the same order across all nodes in the cluster. In the Raft model, only a current leader is allowed to start replicating a new transaction, and a transaction is only committed after a majority of nodes acknowledge it. Because of the first rule, conflicts don't arise in a healthy cluster where the leader is stable. In the presence of leadership changes, the Raft logs of distinct nodes can become mismatched, but Raft will repair these differences once the leader stabilises, and because of the majority rule two nodes cannot commit different sequences of transactions. Once committed, a transaction is never cancelled or rolled back.
 
 From the perspective of a Dqlite client, some possible outcomes when submitting a write transaction `T` to a node `N`:
 
