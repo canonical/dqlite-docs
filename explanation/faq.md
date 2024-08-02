@@ -12,9 +12,15 @@ The v1 series will be maintained, improved and bug-fixed for the foreseeable fut
 
 ## How does Dqlite behave during conflict situations?
 
-Does Raft select a winning WAL to write and any others in-flight writes are aborted?
+Dqlite uses Raft to commit write transactions in the same order across all nodes in the cluster. In the Raft model, only a current leader is allowed to start replicating a new transaction, and a transaction is only committed after a majority of nodes acknowledge it. Because of the first rule, conflicts don't arise in a healthy cluster where the leader is stable. In the presence of leadership changes, the Raft logs of distinct nodes can become mismatched, but Raft will repair these differences once the leader stabilises, and because of the majority rule two nodes cannot commit different sequences of transactions. Once committed, a transaction is never cancelled or rolled back.
 
-There can’t be a conflict situation. Raft’s model is that only the leader can append new log entries, which translated to Dqlite means that only the leader can write new WAL frames. So this means that any attempt to perform a write transaction on a non-leader node will fail with an `ErrNotLeader` error (and in this case clients are supposed to retry against whoever is the new leader).
+From the perspective of a Dqlite client, some possible outcomes when submitting a write transaction `T` to a node `N`:
+
+* The request fails immediately because `N` is not the leader.
+* The request fails after a delay (during which the client is waiting for leader's response) because `N` lost leadership before fully replicating it. In this case, it's guaranteed that no other transaction will observe the effects of `T`.
+* The request succeeds. In this case, `T` will never be rolled back.
+
+See also the [consistency model](./consistency-model.md).
 
 ## When not enough nodes are available, are writes hung until consensus?
 
